@@ -1,6 +1,6 @@
 package br.com.devlhse.myaccount.core.service.transfer.out;
 
-import br.com.devlhse.myaccount.core.domain.Account;
+import br.com.devlhse.myaccount.core.domain.transfer.Account;
 
 import java.util.Optional;
 

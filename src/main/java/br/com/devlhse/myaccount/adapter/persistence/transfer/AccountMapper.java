@@ -1,6 +1,6 @@
 package br.com.devlhse.myaccount.adapter.persistence.transfer;
 
-import br.com.devlhse.myaccount.core.domain.Account;
+import br.com.devlhse.myaccount.core.domain.transfer.Account;
 
 public class AccountMapper {
 
