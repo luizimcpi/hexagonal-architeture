@@ -1,4 +1,4 @@
-package br.com.devlhse.myaccount.core.domain.transfer;
+package br.com.devlhse.myaccount.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
