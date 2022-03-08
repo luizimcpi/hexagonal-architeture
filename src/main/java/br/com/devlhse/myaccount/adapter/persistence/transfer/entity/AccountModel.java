@@ -1,4 +1,4 @@
-package br.com.devlhse.myaccount.adapter.persistence.transfer;
+package br.com.devlhse.myaccount.adapter.persistence.transfer.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +25,7 @@ public class AccountModel {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "balance")
-    private BigDecimal balance;
+//    @Column(name = "transactions")
+//    @OneToMany
+//    private List<TransactionModel> transactions;
 }

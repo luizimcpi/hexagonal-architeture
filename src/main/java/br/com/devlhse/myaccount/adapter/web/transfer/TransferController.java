@@ -20,7 +20,7 @@ public class TransferController {
 
     @PostMapping
     public ResponseEntity transfer(@RequestBody @Valid TransferInput input) {
-        bankTransferUseCase.transfer(input.getOriginAccountId(), input.getDestinyAccountId(), input.getValue());
+        bankTransferUseCase.transfer(input.getOriginAccountId(), input.getDestinyAccountId(), input.getAmount());
         return ResponseEntity.ok().build();
     }
 }

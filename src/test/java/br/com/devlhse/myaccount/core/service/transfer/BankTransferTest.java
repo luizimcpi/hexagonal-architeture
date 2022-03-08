@@ -1,10 +1,13 @@
 package br.com.devlhse.myaccount.core.service.transfer;
 
-import br.com.devlhse.myaccount.core.domain.transfer.Account;
+
+import br.com.devlhse.myaccount.core.domain.entity.Account;
+import br.com.devlhse.myaccount.core.domain.entity.Transaction;
+import br.com.devlhse.myaccount.core.domain.entity.TransactionType;
 import br.com.devlhse.myaccount.core.domain.transfer.exception.BankTransferException;
 import br.com.devlhse.myaccount.core.domain.transfer.exception.SameAccountTransferException;
 import br.com.devlhse.myaccount.core.service.transfer.out.FindAccountPort;
-import br.com.devlhse.myaccount.core.service.transfer.out.SaveAccountPort;
+import br.com.devlhse.myaccount.core.service.transfer.out.SaveTransactionPort;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +17,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -34,15 +41,39 @@ public class BankTransferTest {
     FindAccountPort findAccountPort;
 
     @Mock
-    SaveAccountPort saveAccountPort;
+    SaveTransactionPort saveTransactionPort;
 
     Account originAccount;
     Account destinyAccount;
+    Transaction creditOriginTransaction;
+    Transaction creditDestinyTransaction;
 
     @BeforeEach
     void setUp(){
-        originAccount = Account.builder().id(ORIGIN_ACCOUNT_ID).balance(BigDecimal.valueOf(100)).build();
-        destinyAccount = Account.builder().id(DESTINY_ACCOUNT_ID).balance(BigDecimal.valueOf(100)).build();
+        originAccount = Account.builder().id(ORIGIN_ACCOUNT_ID).build();
+        destinyAccount = Account.builder().id(DESTINY_ACCOUNT_ID).build();
+
+        creditOriginTransaction = Transaction.builder()
+                .id(UUID.randomUUID())
+                .transactionType(TransactionType.CREDIT)
+                .createdAt(LocalDateTime.now())
+                .account(originAccount)
+                .amount(BigDecimal.valueOf(100))
+                .build();
+
+        creditDestinyTransaction = Transaction.builder()
+                .id(UUID.randomUUID())
+                .transactionType(TransactionType.CREDIT)
+                .createdAt(LocalDateTime.now())
+                .account(destinyAccount)
+                .amount(BigDecimal.valueOf(100))
+                .build();
+
+        List<Transaction> originTransactions = new ArrayList<>();
+        originTransactions.add(creditOriginTransaction);
+
+        List<Transaction> destinyTransactions = new ArrayList<>();
+        destinyTransactions.add(creditDestinyTransaction);
     }
 
     @Test
@@ -54,7 +85,7 @@ public class BankTransferTest {
 
         bankTransfer.transfer(ORIGIN_ACCOUNT_ID, DESTINY_ACCOUNT_ID, BigDecimal.valueOf(1));
 
-        verify(saveAccountPort, times(2)).save(any(Account.class));
+        verify(saveTransactionPort, times(2)).save(any(Transaction.class));
     }
 
     @Test
@@ -69,7 +100,7 @@ public class BankTransferTest {
         });
 
         Assertions.assertEquals("Can't transfer to the same account", thrown.getMessage());
-        verify(saveAccountPort, times(0)).save(any(Account.class));
+        verify(saveTransactionPort, times(0)).save(any(Transaction.class));
     }
 
     @Test
@@ -84,6 +115,6 @@ public class BankTransferTest {
         });
 
         Assertions.assertEquals("Error in transfer, check accounts data.", thrown.getMessage());
-        verify(saveAccountPort, times(0)).save(any(Account.class));
+        verify(saveTransactionPort, times(0)).save(any(Transaction.class));
     }
 }

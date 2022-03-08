@@ -22,7 +22,7 @@ public class TransferInput {
     private Long destinyAccountId;
 
     @NotNull
-    @JsonProperty("transferValue")
-    private BigDecimal value;
+    @JsonProperty("amount")
+    private BigDecimal amount;
 
 }

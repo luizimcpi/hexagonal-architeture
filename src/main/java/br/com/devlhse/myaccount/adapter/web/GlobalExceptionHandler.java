@@ -1,5 +1,6 @@
 package br.com.devlhse.myaccount.adapter.web;
 
+import br.com.devlhse.myaccount.core.domain.statement.exception.TransactionsNotFoundException;
 import br.com.devlhse.myaccount.core.domain.transfer.exception.BankTransferException;
 import br.com.devlhse.myaccount.core.domain.transfer.exception.SameAccountTransferException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SameAccountTransferException.class)
     public ResponseEntity<ErrorMessageResponse> handleSameAccountTransferException(Exception e) {
         return new ResponseEntity<>(getErrorMessageResponse(e), HttpStatus.CONFLICT);
+    }
+
+
+    @ExceptionHandler(TransactionsNotFoundException.class)
+    public ResponseEntity<ErrorMessageResponse> handleTransactionsNotFoundException(Exception e) {
+        return new ResponseEntity<>(getErrorMessageResponse(e), HttpStatus.NO_CONTENT);
     }
 
     private ErrorMessageResponse getErrorMessageResponse(Exception e) {
