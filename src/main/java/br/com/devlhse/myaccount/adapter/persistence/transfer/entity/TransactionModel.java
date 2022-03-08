@@ -33,11 +33,6 @@ public class TransactionModel {
     @Column( name = "id")
     private UUID id;
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
-//    private Long id;
-
     @ManyToOne
     @JoinColumn( name = "account_id")
     private AccountModel accountModel;

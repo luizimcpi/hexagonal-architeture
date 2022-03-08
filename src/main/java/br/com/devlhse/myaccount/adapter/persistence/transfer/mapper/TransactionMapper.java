@@ -2,6 +2,7 @@ package br.com.devlhse.myaccount.adapter.persistence.transfer.mapper;
 
 import br.com.devlhse.myaccount.adapter.persistence.transfer.entity.TransactionModel;
 import br.com.devlhse.myaccount.adapter.persistence.transfer.entity.TransactionTypeModel;
+import br.com.devlhse.myaccount.adapter.web.statement.dto.TransactionOutput;
 import br.com.devlhse.myaccount.core.domain.entity.Transaction;
 import br.com.devlhse.myaccount.core.domain.entity.TransactionType;
 
@@ -33,5 +34,13 @@ public class TransactionMapper {
 
     private static TransactionTypeModel getTransactionTypeModel(Transaction transaction) {
         return TransactionType.CREDIT.equals(transaction.getTransactionType()) ? TransactionTypeModel.CREDIT : TransactionTypeModel.DEBIT;
+    }
+
+    public static TransactionOutput toOutput(Transaction transaction) {
+        return TransactionOutput.builder()
+                .createdAt(transaction.getCreatedAt())
+                .amount(transaction.getAmount())
+                .transactionTypeModel(getTransactionTypeModel(transaction))
+                .build();
     }
 }

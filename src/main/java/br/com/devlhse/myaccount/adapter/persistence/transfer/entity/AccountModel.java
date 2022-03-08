@@ -25,7 +25,4 @@ public class AccountModel {
     @Column(name = "id")
     private Long id;
 
-//    @Column(name = "transactions")
-//    @OneToMany
-//    private List<TransactionModel> transactions;
 }

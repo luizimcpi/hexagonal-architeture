@@ -1,5 +1,6 @@
 package br.com.devlhse.myaccount.adapter.web.statement;
 
+import br.com.devlhse.myaccount.adapter.persistence.transfer.mapper.StatementMapper;
 import br.com.devlhse.myaccount.core.service.statement.in.BankStatementUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class StatementController {
 
     @GetMapping("{accountId}")
     public ResponseEntity statement(@PathVariable("accountId") Long accountId) {
-        var transactions = bankStatementUseCase.getStatement(accountId);
-        return ResponseEntity.ok(transactions);
+        var statementOutput = StatementMapper.toOutput(bankStatementUseCase.getStatement(accountId));
+        return ResponseEntity.ok(statementOutput);
     }
 }
